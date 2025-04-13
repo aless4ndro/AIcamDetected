@@ -1,32 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Multiple object detection using pre trained model in TensorFlow.js</title>
-    <meta charset="utf-8">
-    <!-- Import the webpage's stylesheet -->
-    <link rel="stylesheet" href="styles.css">
-  </head>  
-  <body>
-    <h1>Multiple object detection using pre trained model in TensorFlow.js</h1>
+<!DOCTYPE html><html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centre Social</title>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; }
+        header { background-color: #4CAF50; color: white; padding: 20px; text-align: center; border-radius: 10px; }
+        section { margin: 20px 0; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; }
+        input, select, textarea { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }
+        .download-links a { display: inline-block; margin-right: 15px; color: #4CAF50; text-decoration: none; }
+        .download-links a:hover { text-decoration: underline; }
+        #calendar { max-width: 900px; margin: 0 auto; }
+    </style>
+</head>
+<body><header>
+    <h1>Bienvenue au Centre Social</h1>
+    <p>Consultez les plannings, inscrivez-vous aux activités, et localisez notre centre.</p>
+</header><section>
+    <h2>Télécharger les Plannings</h2>
+    <div class="download-links">
+        <a href="/docs/planning_MQN_CAD.pdf" download>Planning MQN / CAD</a>
+        <a href="/docs/planning_Madeleine.pdf" download>Planning de la Madeleine</a>
+    </div>
+</section><section>
+    <h2>Inscription aux Activités</h2>
+    <form action="/inscription" method="post">
+        <label for="nom">Nom :</label>
+        <input type="text" id="nom" name="nom" required><label for="prenom">Prénom :</label>
+    <input type="text" id="prenom" name="prenom" required>
 
-    <p>Wait for the model to load before clicking the button to enable the webcam - at which point it will become visible to use.</p>
-    
-    <section id="demos" class="invisible">
+    <label for="email">Email :</label>
+    <input type="email" id="email" name="email" required>
 
-      <p>Hold some objects up close to your webcam to get a real-time classification! When ready click "enable webcam" below and accept access to the webcam when the browser asks (check the top left of your window)</p>
-      
-      <div id="liveView" class="camView">
-        <button id="webcamButton">Enable Webcam</button>
-        <video id="webcam" autoplay muted width="640" height="480"></video>
-      </div>
-    </section>
+    <label for="activite">Activité :</label>
+    <select id="activite" name="activite" required>
+        <option value="">-- Sélectionner une activité --</option>
+        <option value="atelier_parentalite">Atelier parentalité</option>
+        <option value="cours_francais">Cours de français</option>
+        <option value="activite_jeunes">Activité jeunes</option>
+        <option value="sorties">Sorties et événements</option>
+    </select>
 
-    <!-- Import TensorFlow.js library -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js" type="text/javascript"></script>
-    <!-- Load the coco-ssd model to use to recognize things in images -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
-    
-    <!-- Import the page's JavaScript to do some stuff -->
-    <script src="script.js" defer></script>
-  </body>
+    <label for="message">Message (optionnel) :</label>
+    <textarea id="message" name="message"></textarea>
+
+    <button type="submit">S'inscrire</button>
+</form>
+
+</section><section>
+    <h2>Agenda des Activités</h2>
+    <div id='calendar'></div>
+</section><section>
+    <h2>Localiser le Centre Social</h2>
+    <p>Adresse : 12 rue Duguay Trouin, 27000 Évreux</p>
+    <button onclick="ouvrirCarte()">Voir sur la carte</button>
+</section><script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script><script>
+    function ouvrirCarte() {
+        const adresse = encodeURIComponent("12 rue Duguay Trouin, 27000 Évreux");
+        const url = `https://www.google.com/maps/search/?api=1&query=${adresse}`;
+        window.open(url, '_blank');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'fr',
+            events: [
+                { title: 'Atelier parentalité', start: '2025-04-15' },
+                { title: 'Sortie culturelle', start: '2025-04-20' },
+                { title: 'Cours de français', start: '2025-04-17', end: '2025-04-18' }
+            ]
+        });
+        calendar.render();
+    });
+</script></body>
 </html>
